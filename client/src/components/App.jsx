@@ -1,8 +1,10 @@
 import React from 'react';
 
+import Header from './Header.jsx';
+
 function App() {
   return (
-    <h2>Job Seeker Safe</h2>
+    <Header />
   );
 }
 
