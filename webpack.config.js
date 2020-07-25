@@ -15,7 +15,25 @@ module.exports = {
       {
         test: /\.jsx?/,
         include: SRC_DIR,
+        exclude: /node_modules/,
         use: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          // style-loader
+          { loader: 'style-loader' },
+          // css-loader
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+          // sass-loader
+          { loader: 'sass-loader' },
+        ],
       },
     ],
   },
