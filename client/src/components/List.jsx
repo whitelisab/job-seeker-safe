@@ -1,5 +1,7 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
+import { Container, Row, Col } from 'react-bootstrap';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 import sampleData from '../sampleData.js';
 import ListItem from './ListItem.jsx';
@@ -17,8 +19,26 @@ class List extends React.Component {
     const { jobs } = this.state;
     return (
       <Container>
-        <h3>My job applications</h3>
-        {jobs.map((job) => <ListItem job={job} key={job.id} />)}
+        <Row>
+          <Col>
+            <h3>My job applications</h3>
+          </Col>
+          <Col>
+            <Button variant="primary" className="mr-2 float-right">Add New Job</Button>
+          </Col>
+        </Row>
+        <Table striped borderless hover>
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Company</th>
+              <th>Job Link</th>
+              <th>Status</th>
+              <th>Date Added</th>
+            </tr>
+          </thead>
+          {jobs.map((job) => <ListItem job={job} key={job.id} />)}
+        </Table>
       </Container>
     );
   }

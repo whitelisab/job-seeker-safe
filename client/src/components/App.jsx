@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 
 import Header from './Header.jsx';
 import List from './List.jsx';
@@ -9,7 +8,6 @@ function App() {
     <div>
       <Header />
       <List />
-      <Button variant="primary" className="mr-2">Primary</Button>
     </div>
   );
 }
