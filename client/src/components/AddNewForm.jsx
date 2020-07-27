@@ -2,6 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 class AddNewForm extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class AddNewForm extends React.Component {
       job_title: '',
       company: '',
       url: '',
-      status: '',
+      status: 'Applied',
       date: '',
     };
     this.handleChange = this.handleChange.bind(this);
@@ -21,14 +22,35 @@ class AddNewForm extends React.Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
-    }), console.log(this.state);
+    });
   }
 
   handleSubmit(event) {
-    const { handleClose } = this.props;
+    const { handleClose, addNewJob } = this.props;
+    const {
+      job_title,
+      company,
+      url,
+      status,
+      date,
+    } = this.state;
     event.preventDefault();
     console.log('submitted!', this.state);
-    handleClose();
+    axios.post('/jobs', {
+      job_title,
+      company,
+      url,
+      status,
+      date,
+    })
+      .then((response) => {
+        console.log(response.data.job);
+        addNewJob(response.data.job);
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -56,12 +78,12 @@ class AddNewForm extends React.Component {
         <Form.Group controlId="formSelectStatus">
           <Form.Label>Status</Form.Label>
           <Form.Control as="select" value={status} name="status" onChange={this.handleChange} required>
-            <option>Applied</option>
-            <option>Interviewed</option>
-            <option>Recevied Offer</option>
-            <option>Accepted</option>
-            <option>Declined Offer</option>
-            <option>Rejected</option>
+            <option value="Applied">Applied</option>
+            <option value="Interviewed">Interviewed</option>
+            <option value="Received Offer">Recevied Offer</option>
+            <option value="Accepted Offer">Accepted Offer</option>
+            <option value="Declined Offer">Declined Offer</option>
+            <option value="Rejected">Rejected</option>
           </Form.Control>
         </Form.Group>
         <Form.Group controlId="formDate">
@@ -76,6 +98,7 @@ class AddNewForm extends React.Component {
 
 AddNewForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  addNewJob: PropTypes.func.isRequired,
 };
 
 export default AddNewForm;

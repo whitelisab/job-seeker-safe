@@ -17,7 +17,7 @@ class AddNewModal extends React.Component {
   handleShow() {
     this.setState({
       show: true,
-    }, console.log(this.state.show));
+    });
   }
 
   handleClose() {
@@ -27,15 +27,17 @@ class AddNewModal extends React.Component {
   }
 
   render() {
+    const { show } = this.state;
+    const { addNewJob } = this.props;
     return (
       <>
         <Button variant="primary" onClick={this.handleShow} className="mr-2 float-right">Add New Job</Button>
-        <Modal show={this.state.show} onHide={this.handleClose} backdrop="static" keyboard={false}>
+        <Modal show={show} onHide={this.handleClose} backdrop="static" keyboard={false}>
           <Modal.Header>
             <Modal.Title>Add New Job</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AddNewForm handleClose={this.handleClose} />
+            <AddNewForm handleClose={this.handleClose} addNewJob={addNewJob} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>Close</Button>

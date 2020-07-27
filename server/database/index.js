@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost:27017/job-seeker', { useNewUrlParser: true
 const { Schema } = mongoose;
 
 const jobSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+  // _id: Schema.Types.ObjectId,
   job_title: String,
   company: String,
   url: String,

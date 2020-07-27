@@ -15,7 +15,7 @@ function ListItem(props) {
       <tr>
         <td>{job_title}</td>
         <td>{company}</td>
-        <td>{url}</td>
+        <td><a href={url} target="blank">Job posting</a></td>
         <td>{status}</td>
         <td>{date}</td>
       </tr>

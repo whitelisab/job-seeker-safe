@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
+import axios from 'axios';
 
 import sampleData from '../sampleData.js';
 import ListItem from './ListItem.jsx';
@@ -12,11 +13,48 @@ class List extends React.Component {
 
     this.state = {
       jobs: sampleData,
+      isLoaded: false,
+      error: null,
     };
+    this.addNewJob = this.addNewJob.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/jobs')
+      .then((response) => {
+        console.log(response.data.jobs);
+        this.setState({
+          jobs: response.data.jobs,
+          isLoaded: true,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          isLoaded: true,
+          error,
+        });
+      });
+  }
+
+  addNewJob(job) {
+    console.log('addnewfunc', job);
+    const { jobs } = this.state;
+    const newJobs = jobs.concat(job);
+    this.setState({
+      isLoaded: true,
+      jobs: newJobs,
+    });
   }
 
   render() {
-    const { jobs } = this.state;
+    const { jobs, error, isLoaded } = this.state;
+    if (error) {
+      return <Container>Error</Container>;
+    }
+    if (!isLoaded) {
+      return <Container>Loading...</Container>;
+    }
     return (
       <Container>
         <Row className="my-3">
@@ -24,7 +62,7 @@ class List extends React.Component {
             <h4 className="ml-2">My job applications</h4>
           </Col>
           <Col>
-            <AddNewModal />
+            <AddNewModal addNewJob={this.addNewJob} />
           </Col>
         </Row>
         <Table striped borderless hover>
@@ -37,7 +75,7 @@ class List extends React.Component {
               <th>Date Added</th>
             </tr>
           </thead>
-          {jobs.map((job) => <ListItem job={job} key={job.id} />)}
+          {jobs.map((job) => <ListItem job={job} key={job._id} />)}
         </Table>
       </Container>
     );
