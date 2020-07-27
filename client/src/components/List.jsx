@@ -19,9 +19,9 @@ class List extends React.Component {
     const { jobs } = this.state;
     return (
       <Container>
-        <Row>
+        <Row className="my-3">
           <Col>
-            <h3>My job applications</h3>
+            <h4 className="ml-2">My job applications</h4>
           </Col>
           <Col>
             <Button variant="primary" className="mr-2 float-right">Add New Job</Button>
