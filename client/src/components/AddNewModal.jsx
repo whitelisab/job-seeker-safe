@@ -35,11 +35,10 @@ class AddNewModal extends React.Component {
             <Modal.Title>Add New Job</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AddNewForm />
+            <AddNewForm handleClose={this.handleClose} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>Close</Button>
-            <Button variant="primary">Add Job</Button>
           </Modal.Footer>
         </Modal>
       </>
