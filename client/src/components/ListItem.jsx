@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 function ListItem(props) {
   console.log(props);
@@ -20,14 +20,21 @@ function ListItem(props) {
         <td>{date}</td>
       </tr>
     </tbody>
-    // <div>
-    //   <p>{job_title}</p>
-    //   <p>{company}</p>
-    //   <p>{url}</p>
-    //   <p>{status}</p>
-    //   <p>{date}</p>
-    // </div>
   );
 }
+
+ListItem.propTypes = {
+  job: PropTypes.shape({
+    job_title: PropTypes.string,
+    company: PropTypes.string,
+    url: PropTypes.string,
+    status: PropTypes.string,
+    date: PropTypes.string,
+  }),
+};
+
+ListItem.defaultProps = {
+  job: {},
+};
 
 export default ListItem;

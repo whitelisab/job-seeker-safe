@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
 class AddNewForm extends React.Component {
   constructor(props) {
@@ -72,5 +73,9 @@ class AddNewForm extends React.Component {
     );
   }
 }
+
+AddNewForm.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 
 export default AddNewForm;
