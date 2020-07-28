@@ -70,7 +70,36 @@ app.delete('/jobs/:id', (req, res) => {
         err,
       });
     } else {
-      console.log('deleting from db');
+      console.log('deleted from db');
+      res.status(200).json({
+        _id: id,
+        results,
+      });
+    }
+  });
+});
+
+app.put('/jobs/:id', (req, res) => {
+  const { id } = req.params;
+  const job = req.body;
+  const user_id = job.user_id || 1;
+  console.log(id);
+  const query = db.Job.updateOne({ _id: id }, {
+    job_title: job.job_title,
+    company: job.company,
+    url: job.url,
+    status: job.status,
+    date: job.date,
+    user_id,
+  });
+  query.exec((err, results) => {
+    if (err) {
+      console.log('error updating db record');
+      res.status(400).json({
+        err,
+      });
+    } else {
+      console.log('updated in db');
       res.status(200).json({
         _id: id,
         results,

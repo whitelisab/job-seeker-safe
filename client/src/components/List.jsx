@@ -12,12 +12,13 @@ class List extends React.Component {
     super(props);
 
     this.state = {
-      jobs: sampleData,
+      jobs: [],
       isLoaded: false,
       error: null,
     };
     this.addNewJob = this.addNewJob.bind(this);
     this.deleteJob = this.deleteJob.bind(this);
+    this.updateJob = this.updateJob.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +68,44 @@ class List extends React.Component {
       });
   }
 
+  updateJob(updatedJob) {
+    console.log('updateJob func', updatedJob);
+    const { jobs } = this.state;
+    console.log(jobs);
+    const updatedJobs = jobs.map((job) => {
+      if (job._id === updatedJob._id) {
+        return {
+          _id: updatedJob._id,
+          job_title: updatedJob.job_title,
+          company: updatedJob.company,
+          url: updatedJob.url,
+          status: updatedJob.status,
+          date: updatedJob.date,
+          user_id: job.user_id,
+        };
+      }
+      return job;
+    });
+    console.log('updated jobs', updatedJobs);
+    this.setState({
+      isLoaded: true,
+      jobs: updatedJobs,
+    });
+    axios.put(`/jobs/${updatedJob._id}`, {
+      job_title: updatedJob.job_title,
+      company: updatedJob.company,
+      url: updatedJob.url,
+      status: updatedJob.status,
+      date: updatedJob.date,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     const { jobs, error, isLoaded } = this.state;
     if (error) {
@@ -90,13 +129,12 @@ class List extends React.Component {
             <tr>
               <th>Job Title</th>
               <th>Company</th>
-              <th>Job Link</th>
               <th>Status</th>
               <th>Date Added</th>
               <th>Actions</th>
             </tr>
           </thead>
-          {jobs.map((job) => <ListItem job={job} key={job._id} deleteJob={this.deleteJob} />)}
+          {jobs.map((job) => <ListItem job={job} key={job._id} deleteJob={this.deleteJob} updateJob={this.updateJob} />)}
         </Table>
       </Container>
     );
