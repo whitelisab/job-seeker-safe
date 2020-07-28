@@ -15,7 +15,6 @@ function ListItem(props) {
     _id,
   } = job;
   return (
-    <tbody>
       <tr>
         <td><a href={url} target="blank">{job_title}</a></td>
         <td>{company}</td>
@@ -26,7 +25,6 @@ function ListItem(props) {
           <Button variant="secondary" onClick={deleteJob} id={_id}>Delete</Button>
         </td>
       </tr>
-    </tbody>
   );
 }
 
