@@ -17,8 +17,15 @@ const jobSchema = new Schema({
   user_id: Number,
 });
 
+const userSchema = new Schema({
+  email: String,
+  password: String,
+});
+
 const Job = mongoose.model('Job', jobSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
   Job,
+  User,
 };

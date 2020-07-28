@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const db = require('./database/index.js');
 
 const PORT = 3000;
@@ -101,6 +102,48 @@ app.put('/jobs/:id', (req, res) => {
       res.status(200).json({
         _id: id,
         results,
+      });
+    }
+  });
+});
+
+app.post('/register', (req, res) => {
+  const query = db.User.findOne({ email: req.body.email });
+  query.exec((err, results) => {
+    if (err) {
+      console.log('error finding user in db');
+      res.status(400).json({
+        err,
+      });
+    } else if (results) {
+      console.log('user already in db');
+      res.status(400).json({ email: 'Email already exists' });
+    } else {
+      const newUser = new db.User({
+        email: req.body.email,
+        password: req.body.password,
+      });
+      bcrypt.genSalt(10, (error, salt) => {
+        bcrypt.hash(newUser.password, salt, (error, hash) => {
+          if (error) {
+            console.log('error hashing');
+          } else {
+            newUser.password = hash;
+            newUser.save((err1, data) => {
+              if (err1) {
+                console.log('error adding user to db');
+                res.status(400).json({
+                  err,
+                });
+              } else {
+                console.log('saved user to db', data);
+                res.status(201).json({
+                  user: data,
+                });
+              }
+            });
+          }
+        });
       });
     }
   });
