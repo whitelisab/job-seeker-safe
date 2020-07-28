@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import EditModal from './EditModal.jsx';
 
 function ListItem(props) {
-  console.log(props);
+  // console.log(props);
+  const { deleteJob, updateJob, job } = props;
   const {
     job_title,
     company,
     url,
     status,
     date,
-  } = props.job;
+    _id,
+  } = job;
   return (
     <tbody>
       <tr>
-        <td>{job_title}</td>
+        <td><a href={url} target="blank">{job_title}</a></td>
         <td>{company}</td>
-        <td><a href={url} target="blank">Job posting</a></td>
         <td>{status}</td>
         <td>{date}</td>
+        <td>
+          <EditModal job={job} updateJob={updateJob} />
+          <Button variant="secondary" onClick={deleteJob} id={_id}>Delete</Button>
+        </td>
       </tr>
     </tbody>
   );
@@ -31,6 +38,8 @@ ListItem.propTypes = {
     status: PropTypes.string,
     date: PropTypes.string,
   }),
+  deleteJob: PropTypes.func.isRequired,
+  updateJob: PropTypes.func.isRequired,
 };
 
 ListItem.defaultProps = {
