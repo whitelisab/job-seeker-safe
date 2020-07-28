@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import EditModal from './EditModal.jsx';
+import DeleteModal from './DeleteModal.jsx';
 
 function ListItem(props) {
   // console.log(props);
@@ -15,16 +16,16 @@ function ListItem(props) {
     _id,
   } = job;
   return (
-      <tr>
-        <td><a href={url} target="blank">{job_title}</a></td>
-        <td>{company}</td>
-        <td>{status}</td>
-        <td>{date}</td>
-        <td>
-          <EditModal job={job} updateJob={updateJob} />
-          <Button variant="secondary" onClick={deleteJob} id={_id}>Delete</Button>
-        </td>
-      </tr>
+    <tr>
+      <td><a href={url} target="blank">{job_title}</a></td>
+      <td>{company}</td>
+      <td>{status}</td>
+      <td>{date}</td>
+      <td>
+        <EditModal job={job} updateJob={updateJob} />
+        <DeleteModal job={job} deleteJob={deleteJob} />
+      </td>
+    </tr>
   );
 }
 
@@ -35,6 +36,7 @@ ListItem.propTypes = {
     url: PropTypes.string,
     status: PropTypes.string,
     date: PropTypes.string,
+    _id: PropTypes.string,
   }),
   deleteJob: PropTypes.func.isRequired,
   updateJob: PropTypes.func.isRequired,
