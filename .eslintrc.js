@@ -24,5 +24,7 @@ module.exports = {
   ],
   rules: {
     'import/extensions': ['error', 'always', { ignorePackages: true }],
+    camelcase: ['error', { allow: ['job_title', 'user_id'] }],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };

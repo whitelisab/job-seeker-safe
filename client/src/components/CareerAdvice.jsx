@@ -1,5 +1,7 @@
 import React from 'react';
-import { Container, Row, Col, Card, CardDeck } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import CardDeck from 'react-bootstrap/CardDeck';
 import axios from 'axios';
 
 class CareerAdvice extends React.Component {
@@ -14,7 +16,7 @@ class CareerAdvice extends React.Component {
 
   componentDidMount() {
     const pageNum = Math.floor(Math.random() * 3) + 1;
-    (console.log(pageNum));
+    // (console.log(pageNum));
     axios.get('https://www.themuse.com/api/public/posts', {
       params: {
         tag: 'Engineering',
@@ -22,7 +24,7 @@ class CareerAdvice extends React.Component {
       },
     })
       .then((response) => {
-        console.log(response.data.results);
+        // console.log(response.data.results);
         const articleStart = Math.floor(Math.random() * 9) + 1;
         this.setState({
           isLoaded: true,

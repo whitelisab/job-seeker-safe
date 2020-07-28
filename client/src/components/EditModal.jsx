@@ -32,7 +32,7 @@ class EditModal extends React.Component {
     const { updateJob, job } = this.props;
     return (
       <>
-        <Button variant="secondary" className="mr-2" onClick={this.handleShow} id={job.id}>Edit</Button>
+        <Button variant="secondary" className="mr-2" onClick={this.handleShow} id={job._id}>Edit</Button>
         <Modal show={show} onHide={this.handleClose} backdrop="static" keyboard={false}>
           <Modal.Header>
             <Modal.Title>
@@ -58,6 +58,7 @@ EditModal.propTypes = {
     url: PropTypes.string,
     status: PropTypes.string,
     date: PropTypes.string,
+    _id: PropTypes.string,
   }),
   updateJob: PropTypes.func.isRequired,
 };
