@@ -17,19 +17,20 @@ class List extends React.Component {
       error: null,
     };
     this.addNewJob = this.addNewJob.bind(this);
+    this.deleteJob = this.deleteJob.bind(this);
   }
 
   componentDidMount() {
     axios.get('/jobs')
       .then((response) => {
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
         this.setState({
           jobs: response.data.jobs,
           isLoaded: true,
         });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.setState({
           isLoaded: true,
           error,
@@ -45,6 +46,25 @@ class List extends React.Component {
       isLoaded: true,
       jobs: newJobs,
     });
+  }
+
+  deleteJob(event) {
+    const jobId = event.target.id;
+    console.log('delete', jobId);
+    const { jobs } = this.state;
+    const newJobs = jobs.filter((job) => (job._id !== jobId));
+    console.log('new jobs', newJobs);
+    axios.delete(`/jobs/${jobId}`)
+      .then((response) => {
+        console.log('deleted response', response.data);
+        this.setState({
+          isLoaded: true,
+          jobs: newJobs,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -73,9 +93,10 @@ class List extends React.Component {
               <th>Job Link</th>
               <th>Status</th>
               <th>Date Added</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          {jobs.map((job) => <ListItem job={job} key={job._id} />)}
+          {jobs.map((job) => <ListItem job={job} key={job._id} deleteJob={this.deleteJob} />)}
         </Table>
       </Container>
     );

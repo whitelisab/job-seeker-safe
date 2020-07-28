@@ -59,4 +59,24 @@ app.post('/jobs', (req, res) => {
   });
 });
 
+app.delete('/jobs/:id', (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const query = db.Job.deleteOne({ _id: id });
+  query.exec((err, results) => {
+    if (err) {
+      console.log('error deleting from db');
+      res.status(400).json({
+        err,
+      });
+    } else {
+      console.log('deleting from db');
+      res.status(200).json({
+        _id: id,
+        results,
+      });
+    }
+  });
+});
+
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
