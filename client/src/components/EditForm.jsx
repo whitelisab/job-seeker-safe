@@ -18,13 +18,14 @@ class EditForm extends React.Component {
   }
 
   componentDidMount() {
+    const { job } = this.props;
     const {
       job_title,
       company,
       url,
       status,
       date,
-    } = this.props.job;
+    } = job;
     this.setState({
       job_title,
       company,
@@ -72,7 +73,6 @@ class EditForm extends React.Component {
       status,
       date,
     } = this.state;
-    const { job } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Group controlId="formTextJobTitle">

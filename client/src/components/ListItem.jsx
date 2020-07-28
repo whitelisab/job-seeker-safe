@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/Button';
 import EditModal from './EditModal.jsx';
 import DeleteModal from './DeleteModal.jsx';
 
@@ -13,7 +12,6 @@ function ListItem(props) {
     url,
     status,
     date,
-    _id,
   } = job;
   return (
     <tr>
@@ -36,7 +34,6 @@ ListItem.propTypes = {
     url: PropTypes.string,
     status: PropTypes.string,
     date: PropTypes.string,
-    _id: PropTypes.string,
   }),
   deleteJob: PropTypes.func.isRequired,
   updateJob: PropTypes.func.isRequired,

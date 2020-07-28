@@ -1,8 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const path = require('path');
-const mongoose = require('mongoose');
 const db = require('./database/index.js');
 
 const PORT = 3000;
@@ -35,7 +33,7 @@ app.post('/jobs', (req, res) => {
   const job = req.body;
   const user_id = job.user_id || 1;
   console.log(req);
-  const newJob = new db.Job ({
+  const newJob = new db.Job({
     // _id: new mongoose.Types.ObjectId(),
     job_title: job.job_title,
     company: job.company,
