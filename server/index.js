@@ -2,7 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const db = require('./database/index.js');
+const jwtKey = require('../config.js');
 
 const PORT = 3000;
 
@@ -10,8 +14,38 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
+app.use(session({
+  key: 'email',
+  secret: 'sesh',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    expires: 600000,
+  },
+}));
+
+app.use((req, res, next) => {
+  if (req.cookies.email && !req.session.user) {
+    res.clearCookie('email');
+  }
+  next();
+});
+
+const sessionChecker = (req, res, next) => {
+  if (req.session.user && req.cookies.email) {
+    res.redirect('/');
+  } else {
+    next();
+  }
+};
+
 app.use(express.static('client/dist'));
+
+app.get('/', sessionChecker, (req, res) => {
+  res.redirect('/login');
+});
 
 app.get('/jobs', (req, res) => {
   const query = db.Job.find({ });
@@ -144,6 +178,47 @@ app.post('/register', (req, res) => {
             });
           }
         });
+      });
+    }
+  });
+});
+
+app.post('/login', (req, res) => {
+  const query = db.User.findOne({ email: req.body.email });
+  console.log('logging from login');
+  query.exec((err, results) => {
+    if (err) {
+      console.log('error finding user in db');
+      res.status(400).json({
+        err,
+      });
+    } else if (!results) {
+      console.log('user not found in db');
+      res.status(400).json({ email: 'Email not found' });
+    } else {
+      console.log('user found', results.password);
+      bcrypt.compare(req.body.password, results.password, (error, result) => {
+        if (result) {
+          // passwords match
+          const payload = {
+            email: results.email,
+          };
+          const token = jwt.sign(
+            payload,
+            jwtKey.jwtKey,
+            {
+              algorithm: 'HS256',
+              expiresIn: 6000000,
+            },
+          );
+          console.log('token', token);
+          res.cookie('token', token);
+          res.end();
+        } else {
+          res.status(400).json({
+            pass: 'Password incorrect',
+          });
+        }
       });
     }
   });
