@@ -26,7 +26,7 @@ class AddNewForm extends React.Component {
   }
 
   handleSubmit(event) {
-    const { handleClose, addNewJob } = this.props;
+    const { handleClose, addNewJob, currentUser } = this.props;
     const {
       job_title,
       company,
@@ -36,12 +36,14 @@ class AddNewForm extends React.Component {
     } = this.state;
     event.preventDefault();
     console.log('submitted!', this.state);
+    console.log('user', currentUser);
     axios.post('/jobs', {
       job_title,
       company,
       url,
       status,
       date,
+      user_id: currentUser._id,
     })
       .then((response) => {
         console.log(response.data.job);
@@ -54,6 +56,7 @@ class AddNewForm extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const {
       job_title,
       company,
@@ -99,6 +102,15 @@ class AddNewForm extends React.Component {
 AddNewForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   addNewJob: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({
+    _id: PropTypes.string,
+    email: PropTypes.string,
+    token: PropTypes.string,
+  }),
+};
+
+AddNewForm.defaultProps = {
+  currentUser: {},
 };
 
 export default AddNewForm;

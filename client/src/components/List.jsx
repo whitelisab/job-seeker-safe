@@ -17,6 +17,7 @@ class List extends React.Component {
       jobs: [],
       isLoaded: false,
       error: null,
+      currentUser: {},
     };
     this.addNewJob = this.addNewJob.bind(this);
     this.deleteJob = this.deleteJob.bind(this);
@@ -26,12 +27,15 @@ class List extends React.Component {
   }
 
   componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('user', user);
     axios.get('/jobs')
       .then((response) => {
         // console.log(response.data.jobs);
         this.setState({
           jobs: response.data.jobs,
           isLoaded: true,
+          currentUser: user,
         });
       })
       .catch((error) => {
@@ -147,7 +151,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { jobs, error, isLoaded } = this.state;
+    const { jobs, error, isLoaded, currentUser } = this.state;
     if (error) {
       return <Container>Error</Container>;
     }
@@ -161,7 +165,7 @@ class List extends React.Component {
             <h4 className="ml-2">My job applications</h4>
           </Col>
           <Col>
-            <AddNewModal addNewJob={this.addNewJob} />
+            <AddNewModal currentUser={currentUser} addNewJob={this.addNewJob} />
           </Col>
         </Row>
         <Table striped borderless hover>

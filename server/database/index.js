@@ -14,7 +14,7 @@ const jobSchema = new Schema({
   url: String,
   status: String,
   date: String,
-  user_id: Number,
+  user_id: String,
 });
 
 const userSchema = new Schema({

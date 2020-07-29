@@ -213,8 +213,15 @@ app.post('/login', (req, res) => {
             },
           );
           // console.log('token', token);
-          res.cookie('token', token);
-          res.end();
+          // res.cookie('token', token);
+          // res.end();
+          res.status(201).json({
+            user: {
+              email: results.email,
+              _id: results._id,
+              token,
+            },
+          });
         } else {
           res.status(400).json({
             pass: 'Password incorrect',

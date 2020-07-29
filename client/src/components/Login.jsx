@@ -12,6 +12,8 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      token: '',
+      _id: '',
       isLoggedIn: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -37,8 +39,16 @@ class Login extends React.Component {
     })
       .then((response) => {
         console.log('res from login', response.data);
+        const { user } = response.data;
+        if (user.token) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        console.log(JSON.parse(localStorage.getItem('user')));
         this.setState({
           isLoggedIn: true,
+          email: user.email,
+          token: user.token,
+          _id: user._id,
         });
       })
       .catch((error) => {
@@ -51,6 +61,8 @@ class Login extends React.Component {
       email,
       password,
       isLoggedIn,
+      token,
+      _id,
     } = this.state;
     if (isLoggedIn) {
       return <Redirect to="/" />;
