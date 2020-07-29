@@ -17,36 +17,36 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(session({
-  key: 'email',
-  secret: 'sesh',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    expires: 600000,
-  },
-}));
+// app.use(session({
+//   key: 'email',
+//   secret: 'sesh',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     expires: 600000,
+//   },
+// }));
 
-app.use((req, res, next) => {
-  if (req.cookies.email && !req.session.user) {
-    res.clearCookie('email');
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.cookies.email && !req.session.user) {
+//     res.clearCookie('email');
+//   }
+//   next();
+// });
 
-const sessionChecker = (req, res, next) => {
-  if (req.session.user && req.cookies.email) {
-    res.redirect('/');
-  } else {
-    next();
-  }
-};
+// const sessionChecker = (req, res, next) => {
+//   if (req.session.user && req.cookies.email) {
+//     res.redirect('/');
+//   } else {
+//     next();
+//   }
+// };
 
 app.use(express.static('client/dist'));
 
-app.get('/', sessionChecker, (req, res) => {
-  res.redirect('/login');
-});
+// app.get('/', sessionChecker, (req, res) => {
+//   res.redirect('/login');
+// });
 
 app.get('/jobs', (req, res) => {
   const query = db.Job.find({ });
@@ -58,6 +58,24 @@ app.get('/jobs', (req, res) => {
       });
     } else {
       console.log('got jobs from db');
+      res.status(200).json({
+        jobs: results,
+      });
+    }
+  });
+});
+
+app.get('/jobs/:id', (req, res) => {
+  const user_id = req.params.id;
+  const query = db.Job.find({ user_id });
+  query.exec((err, results) => {
+    if (err) {
+      console.log('error getting users jobs from db');
+      res.status(400).json({
+        err,
+      });
+    } else {
+      console.log('got users jobs from db');
       res.status(200).json({
         jobs: results,
       });

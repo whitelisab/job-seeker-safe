@@ -67,7 +67,7 @@ class Signup extends React.Component {
           </Form.Group>
           <Form.Group controlId="formSignupPass">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="text" value={password} name="password" onChange={this.handleChange} required />
+            <Form.Control type="password" value={password} name="password" onChange={this.handleChange} required />
           </Form.Group>
           <Button type="submit" variant="primary">Sign Up</Button>
         </Form>

@@ -29,7 +29,7 @@ class List extends React.Component {
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('user', user);
-    axios.get('/jobs')
+    axios.get(`/jobs/${user._id}`)
       .then((response) => {
         // console.log(response.data.jobs);
         this.setState({
