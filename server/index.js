@@ -4,7 +4,6 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const db = require('./database/index.js');
 const jwtKey = require('../config.js');
@@ -17,37 +16,9 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
-// app.use(session({
-//   key: 'email',
-//   secret: 'sesh',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     expires: 600000,
-//   },
-// }));
-
-// app.use((req, res, next) => {
-//   if (req.cookies.email && !req.session.user) {
-//     res.clearCookie('email');
-//   }
-//   next();
-// });
-
-// const sessionChecker = (req, res, next) => {
-//   if (req.session.user && req.cookies.email) {
-//     res.redirect('/');
-//   } else {
-//     next();
-//   }
-// };
-
 app.use(express.static('client/dist'));
 
-// app.get('/', sessionChecker, (req, res) => {
-//   res.redirect('/login');
-// });
-
+// GET all jobs
 app.get('/jobs', (req, res) => {
   const query = db.Job.find({ });
   query.exec((err, results) => {
@@ -65,6 +36,7 @@ app.get('/jobs', (req, res) => {
   });
 });
 
+// GET jobs for a particular user
 app.get('/jobs/:id', (req, res) => {
   const user_id = req.params.id;
   const query = db.Job.find({ user_id });
@@ -83,18 +55,17 @@ app.get('/jobs/:id', (req, res) => {
   });
 });
 
+// POST new job
 app.post('/jobs', (req, res) => {
   const job = req.body;
-  const user_id = job.user_id || 1;
   console.log(req);
   const newJob = new db.Job({
-    // _id: new mongoose.Types.ObjectId(),
     job_title: job.job_title,
     company: job.company,
     url: job.url,
     status: job.status,
     date: job.date,
-    user_id,
+    user_id: job.user_id,
   });
   newJob.save((err, data) => {
     if (err) {
@@ -111,6 +82,7 @@ app.post('/jobs', (req, res) => {
   });
 });
 
+// DELETE job
 app.delete('/jobs/:id', (req, res) => {
   const { id } = req.params;
   console.log(id);
@@ -131,6 +103,7 @@ app.delete('/jobs/:id', (req, res) => {
   });
 });
 
+// PUT update/edit job
 app.put('/jobs/:id', (req, res) => {
   const { id } = req.params;
   const job = req.body;
@@ -160,6 +133,7 @@ app.put('/jobs/:id', (req, res) => {
   });
 });
 
+// POST new user
 app.post('/register', (req, res) => {
   const query = db.User.findOne({ email: req.body.email });
   query.exec((err, results) => {
@@ -202,6 +176,7 @@ app.post('/register', (req, res) => {
   });
 });
 
+// POST login to user account
 app.post('/login', (req, res) => {
   const query = db.User.findOne({ email: req.body.email });
   console.log('logging from login');
@@ -218,7 +193,7 @@ app.post('/login', (req, res) => {
       console.log('user found', results.password);
       bcrypt.compare(req.body.password, results.password, (error, result) => {
         if (result) {
-          // passwords match
+          // passwords match, create token
           const payload = {
             email: results.email,
           };
@@ -230,9 +205,6 @@ app.post('/login', (req, res) => {
               expiresIn: 6000000,
             },
           );
-          // console.log('token', token);
-          // res.cookie('token', token);
-          // res.end();
           res.status(201).json({
             user: {
               email: results.email,
@@ -250,6 +222,7 @@ app.post('/login', (req, res) => {
   });
 });
 
+// GET for all endpoints to have index.html
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });

@@ -11,7 +11,7 @@ class Header extends React.Component {
   handleLogout() {
     console.log('logout');
     localStorage.removeItem('user');
-    <Redirect to="/login" />
+    // <Redirect to="/login" />
   }
 
   render() {

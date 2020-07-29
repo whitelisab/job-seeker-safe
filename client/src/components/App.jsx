@@ -9,6 +9,7 @@ import {
 import Home from './Home.jsx';
 import Signup from './Signup.jsx';
 import Login from './Login.jsx';
+import PrivateRoute from './PrivateRoute.jsx';
 
 function App() {
   return (
@@ -20,9 +21,7 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/">
-          <Home />
-        </Route>
+        <PrivateRoute path="/" component={Home} />
       </Switch>
     </Router>
   );
