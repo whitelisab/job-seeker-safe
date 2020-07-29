@@ -1,16 +1,30 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
 
-import Header from './Header.jsx';
-import List from './List.jsx';
-import CareerAdvice from './CareerAdvice.jsx';
+import Home from './Home.jsx';
+import Signup from './Signup.jsx';
+import Login from './Login.jsx';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <List />
-      <CareerAdvice />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/register">
+          <Signup />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

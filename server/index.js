@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -211,7 +212,7 @@ app.post('/login', (req, res) => {
               expiresIn: 6000000,
             },
           );
-          console.log('token', token);
+          // console.log('token', token);
           res.cookie('token', token);
           res.end();
         } else {
@@ -222,6 +223,10 @@ app.post('/login', (req, res) => {
       });
     }
   });
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
