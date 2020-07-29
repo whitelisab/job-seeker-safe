@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
+      hasAccount: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,13 +31,30 @@ class Signup extends React.Component {
       email,
       password,
     } = this.state;
+    axios.post('/register', {
+      email,
+      password,
+    })
+      .then((response) => {
+        console.log('res from register', response.data);
+        this.setState({
+          hasAccount: true,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
     const {
       email,
       password,
+      hasAccount,
     } = this.state;
+    if (hasAccount) {
+      return <Redirect to="/login" />;
+    }
     return (
       <Container>
         <Row className="my-2">
