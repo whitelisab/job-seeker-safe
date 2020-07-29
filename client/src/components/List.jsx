@@ -155,7 +155,7 @@ class List extends React.Component {
       return <Container>Loading...</Container>;
     }
     return (
-      <Container>
+      <Container className="mt-5">
         <Row className="my-3">
           <Col>
             <h4 className="ml-2">My job applications</h4>
@@ -168,7 +168,7 @@ class List extends React.Component {
           <thead>
             <tr>
               <th>
-                Job Title
+                Job title
                 <ButtonGroup className="ml-1" size="sm" aria-label="job title group">
                   <Button id="job_title" size="sm" variant="light" onClick={this.handleSortDescend}>
                     <svg onClick={this.handleSortDescend} id="job_title" width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -213,7 +213,7 @@ class List extends React.Component {
                 </ButtonGroup>
               </th>
               <th>
-                Date Added
+                Date added
                 <ButtonGroup className="ml-1" size="sm" aria-label="job title group">
                   <Button id="date" size="sm" variant="light" onClick={this.handleSortDescend}>
                     <svg onClick={this.handleSortDescend} id="date" width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
