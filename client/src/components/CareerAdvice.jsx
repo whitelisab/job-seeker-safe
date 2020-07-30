@@ -49,7 +49,7 @@ class CareerAdvice extends React.Component {
       return <Container>Loading...</Container>;
     }
     return (
-      <Container>
+      <Container className="mt-5">
         <Row className="my-3">
           <Col>
             <h4 className="ml-2">Career advice</h4>

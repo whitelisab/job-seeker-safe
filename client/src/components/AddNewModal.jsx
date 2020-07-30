@@ -28,16 +28,16 @@ class AddNewModal extends React.Component {
 
   render() {
     const { show } = this.state;
-    const { addNewJob } = this.props;
+    const { addNewJob, currentUser } = this.props;
     return (
       <>
-        <Button variant="primary" onClick={this.handleShow} className="mr-2 float-right">Add New Job</Button>
+        <Button variant="primary" onClick={this.handleShow} className="mr-2 float-right">Add new job</Button>
         <Modal show={show} onHide={this.handleClose} backdrop="static" keyboard={false}>
           <Modal.Header>
-            <Modal.Title>Add New Job</Modal.Title>
+            <Modal.Title>Add new job</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AddNewForm handleClose={this.handleClose} addNewJob={addNewJob} />
+            <AddNewForm handleClose={this.handleClose} addNewJob={addNewJob} currentUser={currentUser} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>Close</Button>

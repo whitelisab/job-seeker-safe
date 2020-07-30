@@ -14,11 +14,18 @@ const jobSchema = new Schema({
   url: String,
   status: String,
   date: String,
-  user_id: Number,
+  user_id: String,
+});
+
+const userSchema = new Schema({
+  email: String,
+  password: String,
 });
 
 const Job = mongoose.model('Job', jobSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
   Job,
+  User,
 };

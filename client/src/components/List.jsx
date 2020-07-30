@@ -17,6 +17,7 @@ class List extends React.Component {
       jobs: [],
       isLoaded: false,
       error: null,
+      currentUser: {},
     };
     this.addNewJob = this.addNewJob.bind(this);
     this.deleteJob = this.deleteJob.bind(this);
@@ -26,12 +27,15 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/jobs')
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('user', user);
+    axios.get(`/jobs/${user._id}`)
       .then((response) => {
         // console.log(response.data.jobs);
         this.setState({
           jobs: response.data.jobs,
           isLoaded: true,
+          currentUser: user,
         });
       })
       .catch((error) => {
@@ -147,7 +151,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { jobs, error, isLoaded } = this.state;
+    const { jobs, error, isLoaded, currentUser } = this.state;
     if (error) {
       return <Container>Error</Container>;
     }
@@ -155,20 +159,20 @@ class List extends React.Component {
       return <Container>Loading...</Container>;
     }
     return (
-      <Container>
+      <Container className="mt-5">
         <Row className="my-3">
           <Col>
             <h4 className="ml-2">My job applications</h4>
           </Col>
           <Col>
-            <AddNewModal addNewJob={this.addNewJob} />
+            <AddNewModal currentUser={currentUser} addNewJob={this.addNewJob} />
           </Col>
         </Row>
         <Table striped borderless hover>
           <thead>
             <tr>
               <th>
-                Job Title
+                Job title
                 <ButtonGroup className="ml-1" size="sm" aria-label="job title group">
                   <Button id="job_title" size="sm" variant="light" onClick={this.handleSortDescend}>
                     <svg onClick={this.handleSortDescend} id="job_title" width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -213,7 +217,7 @@ class List extends React.Component {
                 </ButtonGroup>
               </th>
               <th>
-                Date Added
+                Date added
                 <ButtonGroup className="ml-1" size="sm" aria-label="job title group">
                   <Button id="date" size="sm" variant="light" onClick={this.handleSortDescend}>
                     <svg onClick={this.handleSortDescend} id="date" width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

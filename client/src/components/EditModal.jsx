@@ -36,7 +36,7 @@ class EditModal extends React.Component {
         <Modal show={show} onHide={this.handleClose} backdrop="static" keyboard={false}>
           <Modal.Header>
             <Modal.Title>
-              Edit Job: {job.job_title} - {job.company}
+              Edit job: {job.job_title} - {job.company}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
