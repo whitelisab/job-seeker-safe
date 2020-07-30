@@ -84,7 +84,7 @@ class Login extends React.Component {
           <Button type="submit" variant="primary">Login</Button>
         </Form>
         <Row className="my-2">
-          <Link to="/login">Need to create an account?</Link>
+          <Link to="/register">Need to create an account?</Link>
         </Row>
       </Container>
     );
