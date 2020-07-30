@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -6,7 +7,6 @@ const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const db = require('./database/index.js');
-const jwtKey = require('../config.js');
 
 let port = process.env.PORT;
 if (port == null || port == '') {
@@ -202,7 +202,7 @@ app.post('/login', (req, res) => {
           };
           const token = jwt.sign(
             payload,
-            jwtKey.jwtKey,
+            process.env.MY_SECRET,
             {
               algorithm: 'HS256',
               expiresIn: 6000000,
