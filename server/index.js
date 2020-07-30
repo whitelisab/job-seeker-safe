@@ -8,7 +8,10 @@ const jwt = require('jsonwebtoken');
 const db = require('./database/index.js');
 const jwtKey = require('../config.js');
 
-const PORT = 3000;
+let port = process.env.PORT;
+if (port == null || port == '') {
+  port = 3000;
+}
 
 const app = express();
 
@@ -227,4 +230,4 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+app.listen(port, () => console.log(`listening on port ${port}`));
