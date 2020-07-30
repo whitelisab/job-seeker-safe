@@ -36,7 +36,7 @@ class AddNewForm extends React.Component {
     } = this.state;
     event.preventDefault();
     console.log('submitted!', this.state);
-    console.log('user', currentUser);
+    // console.log('user', currentUser);
     axios.post('/jobs', {
       job_title,
       company,
@@ -56,7 +56,6 @@ class AddNewForm extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const {
       job_title,
       company,
