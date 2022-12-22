@@ -48,7 +48,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "jquery": "^3.5.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "popper.js": "^1.16.1",
